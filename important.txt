@@ -1,0 +1,7 @@
+#ERROR HANDLING
+https://www.loggly.com/blog/node-js-error-handling/
+https://stackoverflow.com/questions/50140841/write-after-end-error-in-a-server-made-with-nodejs
+https://blog.heroku.com/best-practices-nodejs-errors
+
+#NODE HTTP SERVER
+https://medium.com/@amitgupta15/node-js-server-without-express-bf22903355ad

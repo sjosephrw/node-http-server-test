@@ -1,0 +1,16 @@
+{
+  "name": "nodejs_http_server_test",
+  "version": "1.0.0",
+  "description": "Node JS http Server test",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js"
+  },
+  "author": "Joseph W",
+  "license": "ISC",
+  "dependencies": {
+    "dotenv": "^8.2.0",
+    "jsonwebtoken": "^8.5.1",
+    "mongodb": "^3.5.9"
+  }
+}
