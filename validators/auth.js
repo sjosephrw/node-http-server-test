@@ -1,6 +1,6 @@
 const { ValidationError } = require('../utils/errorHandler');
 
-exports.signUp = (data, res) => {
+exports.signUp = (data) => {
 
   const errors = [];
   let errString = '';
@@ -35,7 +35,7 @@ exports.signUp = (data, res) => {
 
 }
 
-exports.signIn = (data, res) => {
+exports.signIn = (data) => {
 
   const errors = [];
   let errString = '';

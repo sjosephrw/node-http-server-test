@@ -19,8 +19,8 @@ exports.signUp = (req, res) => {
     //https://stackoverflow.com/questions/4295782/how-to-process-post-data-in-node-js
 
     //https://gist.github.com/subfuzion/08c5d85437d5d4f00e58
-    //curl -d '{"email":"joseph@example.com", "password":"test1234"}' -H "Content-Type: application/json" -X POST http://127.0.0.1:3000/api/v1/auth/signup 
-    //curl -d '{"email":"michael@example.com", "password":"test1234"}' -H "Content-Type: application/json" -X POST http://127.0.0.1:3000/api/v1/auth/signup 
+    //curl -d '{"email":"joseph@example.com", "password":"pass1234"}' -H "Content-Type: application/json" -X POST http://127.0.0.1:3000/api/v1/auth/signup 
+    //curl -d '{"email":"michael@example.com", "password":"pass1234"}' -H "Content-Type: application/json" -X POST http://127.0.0.1:3000/api/v1/auth/signup 
         
         let body = '';
 
@@ -48,7 +48,7 @@ exports.signUp = (req, res) => {
                 }
                 const data = JSON.parse(body);
                 //validate the sign up data
-                auth.signUp(data, res);
+                auth.signUp(data);
                
                 const { email, password } = data;
                
@@ -80,7 +80,7 @@ exports.signUp = (req, res) => {
 exports.signIn = (req, res) => {
 
     //https://stackoverflow.com/questions/4295782/how-to-process-post-data-in-node-js
-    //curl -d '{"email":"test@example.com", "password":"test1234"}' -H "Content-Type: application/json" -X POST http://127.0.0.1:3000/api/v1/auth/signin
+    //curl -d '{"email":"test@example.com", "password":"pass1234"}' -H "Content-Type: application/json" -X POST http://127.0.0.1:3000/api/v1/auth/signin -> Invalid login credentials
     //https://gist.github.com/subfuzion/08c5d85437d5d4f00e58
 
         let body = '';
@@ -114,7 +114,7 @@ exports.signIn = (req, res) => {
                 const data = JSON.parse(body);
                 
                 //validate the sign in data
-                auth.signIn(data, res);
+                auth.signIn(data);
                 
                 const { email, password } = data;
                
