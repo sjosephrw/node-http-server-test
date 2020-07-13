@@ -11,12 +11,12 @@
 
 ### Required Environment Variables
 >Create a config.env file in the project root folder and add these Environment variables
-> PORT
-> DB_PASSWORD
-> DATABASE
-> JWT_SECRET
-> JWT_EXPIRY_TIME
-> PASSWORD_SALT
+- PORT
+- DB_PASSWORD
+- DATABASE
+- JWT_SECRET
+- JWT_EXPIRY_TIME
+- PASSWORD_SALT
 
 
 
