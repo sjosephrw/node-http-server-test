@@ -3,10 +3,10 @@
 
 ## Features!
 
-- A HTTP server written in pure Node JS without the Express JS framework.
+- A REST API written in pure Node JS without the Express JS framework.
 - Very few libraries were used in this project.
-- The code is mostly Pure JavaScript.
-- User Sign In / Sign Up functionality has been Implemented
+- The code is Pure JavaScript.
+- Only user Sign In / Sign Up functionality has been Implemented
 
 
 ### Required Environment Variables
@@ -42,7 +42,7 @@ Install the dependencies and start the server.
 ```sh
 $ cd node-http-server-test
 $ npm install
-$ node index.js
+$ npm start
 ```
 
 Verify the deployment by navigating to your server address in your preferred browser.
@@ -63,5 +63,5 @@ License
 MIT
 
 ## Youtube Tutorial
-[YOUTUBE](https://www.youtube.com/watch?v=kJtiUn-AvG0)
+[YOUTUBE](https://www.youtube.com/channel/UCHBEQxtc4La3kNW6nNJpubg)
 

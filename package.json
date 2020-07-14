@@ -11,6 +11,8 @@
   "dependencies": {
     "dotenv": "^8.2.0",
     "jsonwebtoken": "^8.5.1",
-    "mongodb": "^3.5.9"
+    "mongo-sanitize": "^1.1.0",
+    "mongodb": "^3.5.9",
+    "xss": "^1.0.7"
   }
 }

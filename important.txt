@@ -5,3 +5,8 @@ https://blog.heroku.com/best-practices-nodejs-errors
 
 #NODE HTTP SERVER
 https://medium.com/@amitgupta15/node-js-server-without-express-bf22903355ad
+
+#XSS
+https://stackoverflow.com/a/15578367
+https://stackoverflow.com/questions/3705356/preventing-xss-in-node-js-server-side-javascript
+https://stackoverflow.com/a/4419541

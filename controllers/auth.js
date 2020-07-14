@@ -1,3 +1,6 @@
+//3rd party modules
+const sanitize = require('mongo-sanitize');
+
 //validators
 const auth = require('../validators/auth');
 
@@ -8,6 +11,7 @@ const { BadRequestError } = require('../utils/errorHandler');
 const { isEmailTaken, hashPassword, isThePasswordCorrect } = require('../utils/user');
 const { createJwt } = require('../utils/jwt');
 const { rsp, rspError } = require('../utils/general');
+const { xssFilter, noSqlFilter } = require('../utils/security');
 
 //Models
 const User = require('../models/user');
@@ -18,9 +22,10 @@ exports.signUp = (req, res) => {
     //https://stackoverflow.com/questions/35704617/node-js-http-server-error-handling
     //https://stackoverflow.com/questions/4295782/how-to-process-post-data-in-node-js
 
-    //https://gist.github.com/subfuzion/08c5d85437d5d4f00e58
     //curl -d '{"email":"joseph@example.com", "password":"pass1234"}' -H "Content-Type: application/json" -X POST http://127.0.0.1:3000/api/v1/auth/signup 
     //curl -d '{"email":"michael@example.com", "password":"pass1234"}' -H "Content-Type: application/json" -X POST http://127.0.0.1:3000/api/v1/auth/signup 
+    //curl -d '{"email":"michael@example.com", "password":"<script>alert(\"xss\");</script>"}' -H "Content-Type: application/json" -X POST http://127.0.0.1:3000/api/v1/auth/signup //TEST XSS FILTER
+    //curl -d '{"$email":"michael@example.com", "password":"pass1234"}' -H "Content-Type: application/json" -X POST http://127.0.0.1:3000/api/v1/auth/signup //TEST NOSQL INJECTION
         
         let body = '';
 
@@ -47,10 +52,21 @@ exports.signUp = (req, res) => {
                     throw new BadRequestError('Invalid request!');
                 }
                 const data = JSON.parse(body);
-                //validate the sign up data
-                auth.signUp(data);
-               
-                const { email, password } = data;
+
+                //filter xss                    
+                const filteredObj = xssFilter(data);
+                //console.log(filteredObj);
+                //return; 
+                
+                //prevent NoSQl injectiion
+                sanitize(filteredObj);
+                //console.log(filteredObj);
+                //return;
+                
+                //validate the sign Up data
+                auth.signUp(filteredObj);
+                
+                const { email, password } = filteredObj;
                
                 const emailExists = await isEmailTaken(email);
                 if (emailExists) throw new BadRequestError('That Email has been taken.');    
@@ -81,7 +97,7 @@ exports.signIn = (req, res) => {
 
     //https://stackoverflow.com/questions/4295782/how-to-process-post-data-in-node-js
     //curl -d '{"email":"test@example.com", "password":"pass1234"}' -H "Content-Type: application/json" -X POST http://127.0.0.1:3000/api/v1/auth/signin -> Invalid login credentials
-    //https://gist.github.com/subfuzion/08c5d85437d5d4f00e58
+
 
         let body = '';
 
@@ -113,10 +129,20 @@ exports.signIn = (req, res) => {
                 
                 const data = JSON.parse(body);
                 
-                //validate the sign in data
-                auth.signIn(data);
+                //filter xss                    
+                const filteredObj = xssFilter(data);
+                //console.log(filteredObj);
+                //return; 
                 
-                const { email, password } = data;
+                //prevent NoSQl injectiion
+                sanitize(filteredObj);
+                //console.log(filteredObj);
+                //return;
+                
+                //validate the sign In data
+                auth.signIn(filteredObj);
+                
+                const { email, password } = filteredObj;
                
                 const user = new User();
                 const userExists = await user.getOne({ "email": email });    

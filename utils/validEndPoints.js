@@ -23,12 +23,18 @@ const isEmpty = (obj) => {
 }
 
 const hasKeyWithValue = (obj) => {
-    if (obj.hasOwnProperty('id')){
-        if (obj[id]){
-            return true;
-        } else {
-            return false;
-        }
+
+    //DON'T use hasOwnProperty here, becuase the prototype is null it throws an error just use if(obj['id'])
+    /*
+    [Object: null prototype] { id: '3' }
+    UNCAUGHT EXCEPTION! 💥 Shutting down...
+    TypeError obj.hasOwnProperty is not a function    
+    
+    */ 
+
+    if (obj['id']){
+        //console.log('validEndPoints, hasKeyWithValue() -> ', obj['id']);
+        return true;
     } else {
         return false;
     }
@@ -38,6 +44,8 @@ const validateEndPoints = (req) => {
     const parsed = url.parse(req.url);
     
     const query  = querystring.parse(parsed.query);
+    
+    //console.log(query);
     
     if (!isEmpty(query) && hasKeyWithValue(query)){
         
