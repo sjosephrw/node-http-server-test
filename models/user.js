@@ -28,6 +28,11 @@ class User {
         return doc.ops[0];            
 
     }
+    
+    async updateOne(myquery, newvalues){
+        const doc = await get().collection("users").findOneAndUpdate(myquery, newvalues, { returnOriginal: false }); 
+        return doc.value; 
+    }
 }
 
 module.exports = User;

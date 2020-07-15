@@ -1,3 +1,5 @@
+const fs = require('fs');
+
 exports.rspError = (res, e) => {
     
     let sCode;
@@ -40,3 +42,7 @@ exports.rsp = (res, sCode, rspObj) => {
     res.write(JSON.stringify(rspObj));
     res.end();
 }
+
+
+
+

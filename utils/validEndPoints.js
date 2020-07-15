@@ -2,14 +2,14 @@ const url = require('url');
 const querystring = require('querystring');
 
 //GET only endpoints
-const getMethodEndPoints = ['/', '/api/v1/product'];
+const getMethodEndPoints = ['/', '/api/v1/product', '/api/v1/user'];
 
 //POST only endpoints
-const postMethodEndPoints = ['/api/v1/auth/signup', '/api/v1/auth/signin', '/api/v1/product'];
+const postMethodEndPoints = ['/api/v1/auth/signup', '/api/v1/auth/signin', '/api/v1/product', '/api/v1/user',  '/api/v1/user/profile-img'];
 
 //[GET, PATCH, DELETE] end points with query parameters '?id=123', 
 const getPatchDeleteEndPoints = [
-    '/api/v1/product'
+    '/api/v1/product', '/api/v1/user'
 ]
 
 
@@ -68,7 +68,9 @@ const validateEndPoints = (req) => {
             if (req.method === 'GET'){
             
                 if (getMethodEndPoints.includes(req.url)){
-                    return true;
+                    return true;  
+                } else if (req.url.startsWith('/uploads')){//static directory - images    
+                     return true;                   
                 } else {
                     return false;
                 } 

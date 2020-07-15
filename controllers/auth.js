@@ -5,7 +5,7 @@ const sanitize = require('mongo-sanitize');
 const auth = require('../validators/auth');
 
 //utils -> errors
-const { BadRequestError } = require('../utils/errorHandler');
+const { BadRequestError, NotFoundError } = require('../utils/errorHandler');
 
 //utils
 const { isEmailTaken, hashPassword, isThePasswordCorrect } = require('../utils/user');
@@ -21,11 +21,6 @@ const User = require('../models/user');
 exports.signUp = (req, res) => {
     //https://stackoverflow.com/questions/35704617/node-js-http-server-error-handling
     //https://stackoverflow.com/questions/4295782/how-to-process-post-data-in-node-js
-
-    //curl -d '{"email":"joseph@example.com", "password":"pass1234"}' -H "Content-Type: application/json" -X POST http://127.0.0.1:3000/api/v1/auth/signup 
-    //curl -d '{"email":"michael@example.com", "password":"pass1234"}' -H "Content-Type: application/json" -X POST http://127.0.0.1:3000/api/v1/auth/signup 
-    //curl -d '{"email":"michael@example.com", "password":"<script>alert(\"xss\");</script>"}' -H "Content-Type: application/json" -X POST http://127.0.0.1:3000/api/v1/auth/signup //TEST XSS FILTER
-    //curl -d '{"$email":"michael@example.com", "password":"pass1234"}' -H "Content-Type: application/json" -X POST http://127.0.0.1:3000/api/v1/auth/signup //TEST NOSQL INJECTION
         
         let body = '';
 
@@ -96,8 +91,6 @@ exports.signUp = (req, res) => {
 exports.signIn = (req, res) => {
 
     //https://stackoverflow.com/questions/4295782/how-to-process-post-data-in-node-js
-    //curl -d '{"email":"test@example.com", "password":"pass1234"}' -H "Content-Type: application/json" -X POST http://127.0.0.1:3000/api/v1/auth/signin -> Invalid login credentials
-
 
         let body = '';
 
@@ -146,7 +139,7 @@ exports.signIn = (req, res) => {
                
                 const user = new User();
                 const userExists = await user.getOne({ "email": email });    
-                if (!userExists) throw new BadRequestError('That email has not been registered.'); 
+                if (!userExists) throw new NotFoundError('That email has not been registered.'); 
               
                 const result = await isThePasswordCorrect(password, userExists.password);
                 if (!result) throw new BadRequestError('Invalid Email or Password.');
