@@ -10,10 +10,23 @@ class User {
         
     }
     
+    //https://docs.mongodb.com/manual/reference/method/cursor.skip/
+    async searchUser(query, pageNumber, nPerPage){
+            
+        const users = get().collection('users').find({
+            "email": {
+                $regex: query,
+                $options: "i"
+            }
+        }).skip( pageNumber > 0 ? ( ( pageNumber - 1 ) * nPerPage ) : 0 ).limit( nPerPage ).toArray();//Without toArray() you can not get the search results;
+        
+        return users;
+    }    
+    
     async getOne(criteria){
     
         const user = get().collection('users').findOne(criteria);
-        return user;
+        return user.cmd.query.email;
     
     }
     

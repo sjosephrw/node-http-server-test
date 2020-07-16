@@ -5,7 +5,7 @@ const querystring = require('querystring');
 const getMethodEndPoints = ['/', '/api/v1/product', '/api/v1/user'];
 
 //POST only endpoints
-const postMethodEndPoints = ['/api/v1/auth/signup', '/api/v1/auth/signin', '/api/v1/product', '/api/v1/user',  '/api/v1/user/profile-img'];
+const postMethodEndPoints = ['/api/v1/auth/signup', '/api/v1/auth/signin', '/api/v1/product', '/api/v1/user',  '/api/v1/user/profile-img', '/api/v1/user/search'];
 
 //[GET, PATCH, DELETE] end points with query parameters '?id=123', 
 const getPatchDeleteEndPoints = [

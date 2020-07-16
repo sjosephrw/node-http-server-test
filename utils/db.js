@@ -43,10 +43,10 @@ const connect = (callback) => {
         //https://stackoverflow.com/questions/35019313/checking-if-an-index-exists-in-mongodb
         //https://stackoverflow.com/a/35020346
         //createIndex creates the index if it does not exist
-        dbase.collection('users').createIndex({ email: 1 }, function(err, result) {
-           if(err) throw err;
-           console.log('DB utils -> ', result);
-        });    
+        //dbase.collection('users').createIndex({ email: "text" }, function(err, result) {
+          // if(err) throw err;
+           //console.log('utils/db -> ', result);
+        //});    
             
         mongodb = dbase;
         callback();

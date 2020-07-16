@@ -6,8 +6,9 @@
 - A REST API written in pure Node JS without the Express JS framework.
 - Very few libraries were used in this project.
 - The code is Pure JavaScript.
-- Only user Sign In / Sign Up and Image upload functionality has been Implemented
-
+- User Sign In / Sign Up 
+- Image upload 
+- Search feature with Pagination  
 
 ### Required Environment Variables
 >Create a config.env file in the project root folder and add these Environment variables
@@ -73,6 +74,10 @@ POST http://127.0.0.1:3000/api/v1/user/profile-img
 curl -X GET 'http://127.0.0.1:3000/api/v1/user?id=<userId>'
 ```
 
+ - Search by email field
+```sh
+curl -d '{"query":"@gmail", "limit": 2, "page": 1 }' -H "Content-Type: application/json" -X POST http://127.0.0.1:3000/api/v1/user/search
+```
 
 ### Todos
 

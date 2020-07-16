@@ -11,7 +11,7 @@ const { BadRequestError, NotFoundError } = require('../utils/errorHandler');
 const { isEmailTaken, hashPassword, isThePasswordCorrect } = require('../utils/user');
 const { createJwt } = require('../utils/jwt');
 const { rsp, rspError } = require('../utils/general');
-const { xssFilter, noSqlFilter } = require('../utils/security');
+const { xssFilter } = require('../utils/security');
 
 //Models
 const User = require('../models/user');
