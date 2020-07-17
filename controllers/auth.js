@@ -1,6 +1,3 @@
-//3rd party modules
-const sanitize = require('mongo-sanitize');
-
 //validators
 const auth = require('../validators/auth');
 
@@ -10,8 +7,8 @@ const { BadRequestError, NotFoundError } = require('../utils/errorHandler');
 //utils
 const { isEmailTaken, hashPassword, isThePasswordCorrect } = require('../utils/user');
 const { createJwt } = require('../utils/jwt');
-const { rsp, rspError } = require('../utils/general');
-const { xssFilter } = require('../utils/security');
+const { rsp, rspError, validateAndFilterData } = require('../utils/general');
+
 
 //Models
 const User = require('../models/user');
@@ -38,53 +35,36 @@ exports.signUp = (req, res) => {
                 req.connection.destroy();
         });
 
-        req.on('end', async function () {
+        req.on('end', () => { processSignUp(req, res, body) });
 
-            try {
-                //receive form data
-                //to prevent curl response with no data from crashing the server -> curl -X POST http://127.0.0.1:3000/api/v1/auth/signup
-                if (!body){
-                    throw new BadRequestError('Invalid request!');
-                }
-                const data = JSON.parse(body);
 
-                //filter xss                    
-                const filteredObj = xssFilter(data);
-                //console.log(filteredObj);
-                //return; 
-                
-                //prevent NoSQl injectiion
-                sanitize(filteredObj);
-                //console.log(filteredObj);
-                //return;
-                
-                //validate the sign Up data
-                auth.signUp(filteredObj);
-                
-                const { email, password } = filteredObj;
-               
-                const emailExists = await isEmailTaken(email);
-                if (emailExists) throw new BadRequestError('That Email has been taken.');    
-                
-                const hashedPassword = await hashPassword(password);
-                
-                const user = new User();
-                const doc = await user.createOne({ "email": email, "password": hashedPassword });
-              
-                const userObj = {
-                    _id: doc._id,
-                    email: doc.email
-                }
-                            
-                rsp(res, 201, {'status': 'success', 'message': 'Success! you have been signed up. 🙂', 'data': {'data': userObj}});            
-                            
-            } catch (e){
-                console.log(e);
-                rspError(res, e);
-            }
+}
 
-        });
+const processSignUp = async (req, res, body) => {
 
+    try {
+
+        const { email, password } = validateAndFilterData(body, auth.signUp);
+        
+        const emailExists = await isEmailTaken(email);
+        if (emailExists) throw new BadRequestError('That Email has been taken.');    
+        
+        const hashedPassword = await hashPassword(password);
+        
+        const user = new User();
+        const doc = await user.createOne({ "email": email, "password": hashedPassword });
+      
+        const userObj = {
+            _id: doc._id,
+            email: doc.email
+        }
+                    
+        rsp(res, 201, {'status': 'success', 'message': 'Success! you have been signed up. 🙂', 'data': {'data': userObj}});            
+                    
+    } catch (e){
+        console.log(e);
+        rspError(res, e);
+    }
 
 }
 
@@ -108,57 +88,40 @@ exports.signIn = (req, res) => {
                 req.connection.destroy();
         });
 
-        req.on('end', async function () {
-            
-              try {
-
-                console.log(body);
-                //receive form data
-                //to prevent curl response with no data from crashing the server -> curl -X POST http://127.0.0.1:3000/api/v1/auth/signup
-                
-                if (!body){
-                    throw new BadRequestError('Invalid request!');
-                }
-                
-                const data = JSON.parse(body);
-                
-                //filter xss                    
-                const filteredObj = xssFilter(data);
-                //console.log(filteredObj);
-                //return; 
-                
-                //prevent NoSQl injectiion
-                sanitize(filteredObj);
-                //console.log(filteredObj);
-                //return;
-                
-                //validate the sign In data
-                auth.signIn(filteredObj);
-                
-                const { email, password } = filteredObj;
-               
-                const user = new User();
-                const userExists = await user.getOne({ "email": email });    
-                if (!userExists) throw new NotFoundError('That email has not been registered.'); 
-              
-                const result = await isThePasswordCorrect(password, userExists.password);
-                if (!result) throw new BadRequestError('Invalid Email or Password.');
-              
-                const userObj = {
-                    _id: userExists._id,
-                    email: userExists.email,
-                    role: userExists.role
-                }
-              
-                const token = createJwt(userObj);
-                
-                rsp(res, 200, {'status': 'success', 'message': 'Success! signed in, redirecting in 3 seconds. 🏀', 'token': token, 'data': {'data':userObj}});                            
-                
-              } catch (e){
-                console.log(e);
-                rspError(res, e);
-              }            
-
-        });
+        req.on('end', () => { processSignIn(req, res, body) });
 
 }
+
+const processSignIn = async (req, res, body) => {
+            
+    try {
+
+        const { email, password } = validateAndFilterData(body, auth.signIn);
+
+        const user = new User();
+        const userExists = await user.getOne({ "email": email });    
+        if (!userExists) throw new NotFoundError('That email has not been registered.'); 
+
+        const result = await isThePasswordCorrect(password, userExists.password);
+        if (!result) throw new BadRequestError('Invalid Email or Password.');
+
+        const userObj = {
+            _id: userExists._id,
+            email: userExists.email,
+            role: userExists.role
+        }
+
+        const token = createJwt(userObj);
+
+        rsp(res, 200, {'status': 'success', 'message': 'Success! signed in, redirecting in 3 seconds. 🏀', 'token': token, 'data': {'data':userObj}});                            
+
+    } catch (e){
+        console.log(e);
+        rspError(res, e);
+    }            
+
+}
+
+
+
+

@@ -7,6 +7,7 @@ const { rsp } = require('./utils/general');
 //routes
 const auth = require('./routes/auth');
 const user = require('./routes/user');
+const document = require('./routes/document');
 
 const functionHandler = function (req, res) {
 
@@ -55,11 +56,13 @@ const functionHandler = function (req, res) {
         //Upload User Image -> http://127.0.0.1:3000/api/v1/user/profile-img -> set JWT in header and <input type="file" name="filetoupload"> set the name attribute value to 'filetoupload'
         user(req, res);
     
-    }  else if (req.url.startsWith('/api/v1/product')){
+    }  else if (req.url.startsWith('/api/v1/document')){
       
         //https://stackoverflow.com/questions/13371284/curl-command-line-url-parameters
         //curl -X GET 'http://127.0.0.1:3000/api/v1/product?id=3'
         //curl -X DELETE 'http://127.0.0.1:3000/api/v1/product?id=3'
+
+        document(req, res);
 
         rsp(res, 200, {'status': 'success', 'message': 'This route has not been completed yet.  🏈'});            
       

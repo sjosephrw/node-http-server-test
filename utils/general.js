@@ -1,5 +1,11 @@
 const fs = require('fs');
 
+//3rd party modules
+const sanitize = require('mongo-sanitize');
+
+const { BadRequestError } = require('./errorHandler');
+const { xssFilter } = require('./security');
+
 exports.rspError = (res, e) => {
     
     let sCode;
@@ -43,6 +49,39 @@ exports.rsp = (res, sCode, rspObj) => {
     res.end();
 }
 
+exports.validateAndFilterData = (body, cb) => {
+        
+        console.log(body);
+        //receive form data
+        //to prevent curl response with no data from crashing the server -> curl -X POST http://127.0.0.1:3000/api/v1/auth/signup
+        
+        if (!body){
+            throw new BadRequestError('Invalid request!');
+        }
+        const data = JSON.parse(body);
 
+        //filter xss                    
+        const filteredObj = xssFilter(data);
+        //console.log(filteredObj);
+        //return; 
+        
+        //prevent NoSQl injectiion
+        sanitize(filteredObj);
+        //console.log(filteredObj);
+        //return;
+        
+        //validate the data
+        cb(filteredObj);
+        
+        return filteredObj;
 
+}
 
+exports.getAndSanitizeReqParamsId = (req) => {
+
+    const id = req.url.split('?')[1].split('=')[1];
+    console.log(`utils/user ->`, id); 
+    sanitize(id);
+    return id;
+
+}

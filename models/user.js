@@ -26,8 +26,7 @@ class User {
     async getOne(criteria){
     
         const user = get().collection('users').findOne(criteria);
-        return user.cmd.query.email;
-    
+        return user;
     }
     
     async createOne(userObj){
@@ -46,6 +45,11 @@ class User {
         const doc = await get().collection("users").findOneAndUpdate(myquery, newvalues, { returnOriginal: false }); 
         return doc.value; 
     }
+    
+    async deleteOne(myquery){
+        await get().collection("users").deleteOne(myquery); 
+    }
+    
 }
 
 module.exports = User;

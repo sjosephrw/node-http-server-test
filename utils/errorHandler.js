@@ -28,9 +28,28 @@ class BadRequestError extends Error {
   }
 }
 
+class NotAuthorizedError extends Error {
+  constructor(message) {
+    super(message);
+    this.name = 'NotAuthorizedError';
+    this.statusCode = 403;
+    this.status = 'fail';
+  }
+}
+
+class NotAuthenticatedError extends Error {
+  constructor(message) {
+    super(message);
+    this.name = 'NotAuthenticatedError';
+    this.statusCode = 401;
+    this.status = 'fail';
+  }
+}
 
 module.exports = {
     ValidationError,
     NotFoundError,
-    BadRequestError
+    BadRequestError,
+    NotAuthorizedError,
+    NotAuthenticatedError
 }
