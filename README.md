@@ -6,9 +6,12 @@
 - A REST API written in pure Node JS without the Express JS framework.
 - Very few libraries were used in this project.
 - The code is Pure JavaScript.
-- User Sign In / Sign Up 
+- User Sign In / Sign Up
+- Update User 
+- Delete User  
 - Image upload 
-- Search feature with Pagination  
+- Search feature with Pagination
+- Moderately Reusable code   
 
 ### Required Environment Variables
 >Create a config.env file in the project root folder and add these Environment variables
@@ -82,15 +85,13 @@ curl -d '{"query":"@gmail", "limit": 2, "page": 1 }' -H "Content-Type: applicati
 ### Todos
 
  - Write MORE Code
+ - Try to make the code as Reusable as possible
 
 License
 ----
 
 MIT
 
-## Drawbacks
-* The code is not that reusable.
-
-## Youtube Tutorial
+### Youtube Tutorial
 [YOUTUBE](https://www.youtube.com/channel/UCHBEQxtc4La3kNW6nNJpubg)
 
