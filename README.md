@@ -57,30 +57,7 @@ http://127.0.0.1:3000
 
 ### API End Points
 
- - Sign Up
-```sh
-curl -d '{"email":"test@example.com", "password":"password"}' -H "Content-Type: application/json" -X POST http://127.0.0.1:3000/api/v1/auth/signup
-```
-
- - Sign In
-```sh
-curl -d '{"email":"test@example.com", "password":"password"}' -H "Content-Type: application/json" -X POST http://127.0.0.1:3000/api/v1/auth/signin
-```
-
- - Image Upload
-```sh
-POST http://127.0.0.1:3000/api/v1/user/profile-img
-```
-
- - Get One User
-```sh
-curl -X GET 'http://127.0.0.1:3000/api/v1/user?id=<userId>'
-```
-
- - Search by email field
-```sh
-curl -d '{"query":"@gmail", "limit": 2, "page": 1 }' -H "Content-Type: application/json" -X POST http://127.0.0.1:3000/api/v1/user/search
-```
+[POSTMAN](https://documenter.getpostman.com/view/10338591/T1Djkf9q)
 
 ### Todos
 

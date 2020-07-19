@@ -1,4 +1,4 @@
-const {signUp, signIn} = require('../controllers/auth');
+const { authController, processSignIn, processSignUp } = require('../controllers/auth');
 
 const auth = (req, res) => {
     const finalUrlSegment = req.url.split('/')[4];
@@ -6,9 +6,9 @@ const auth = (req, res) => {
     //console.log(finalUrlSegment)
 
     if (finalUrlSegment === 'signup'){
-        signUp(req, res);
+        authController(req, res, processSignUp);
     } else if (finalUrlSegment === 'signin'){
-        signIn(req, res);
+        authController(req, res, processSignIn);
     }
 }
 

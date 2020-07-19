@@ -9,20 +9,16 @@ const passwordSalt = process.env.PASSWORD_SALT;
 
 exports.isEmailTaken = async (email) => {
 
-    try {
-      const res = await get().collection("users").findOne({ "email": email }); 
-      
-      //console.log('utils/user isEmailTaken', res);
-      
+      const res = await get().collection("users").findOne({ "email": email });
+
+      console.log('utils/user isEmailTaken', res);
+
       if (res){
         return true;
       } else {
         return false;
-      }     
-    } catch(e){
-      console.log('Error', e);
-    }
-      
+      }
+
 }
 
 
@@ -39,7 +35,7 @@ exports.hashPassword = async (password) => {
     } catch(e){
         console.log('Error', e);
     }
-  
+
 }
 
 exports.isThePasswordCorrect = async (password, dbPassword) => {
@@ -49,12 +45,8 @@ exports.isThePasswordCorrect = async (password, dbPassword) => {
         const derivedKey = await scryptAsync(password, passwordSalt, 32);
         console.log('isThePasswordCorrect, utils/user', derivedKey.toString('hex'), 'DB Password -> ', dbPassword);
         return derivedKey.toString('hex') === dbPassword ? true : false;
-        
+
     } catch(e){
         console.log('Error', e);
-    }    
+    }
 }
-
-
-
-
